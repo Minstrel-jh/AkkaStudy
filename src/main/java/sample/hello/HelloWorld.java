@@ -11,6 +11,8 @@ public class HelloWorld extends UntypedActor {
         // create the greeter actor
         final ActorRef greeter = getContext().actorOf(Props.create(Greeter.class), "greeter");
 
+        System.out.println(greeter.path());
+
         // tell it to perform the greeting
         greeter.tell(Greeter.Msg.GREET, getSelf());
     }
