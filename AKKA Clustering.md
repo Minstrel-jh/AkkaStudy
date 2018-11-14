@@ -4,7 +4,7 @@
 > https://doc.akka.io/docs/akka/2.5/common/cluster.html
 
 ### 介绍
-Akka Cluster提供了一个容错的(fault-tolerant)、去中心化的(decentralized)、点对点的(peer-to-peer based)集群[成员](#membership)服务，排除了单点故障或单点瓶颈。使用[gossip协议](#gossip)和一个自动[故障检测器](#failure detector)来做到这一点。
+Akka Cluster提供了一个容错的(fault-tolerant)、去中心化的(decentralized)、点对点的(peer-to-peer based)集群[成员](#membership)服务，排除了单点故障或单点瓶颈。使用[gossip协议](#gossip)和一个自动[故障检测器](#failure_detector)来做到这一点。
 
 Akka cluster allows for building distributed applications, where one application or service spans multiple nodes (in practice multiple ActorSystems). See also the discussion in [When and where to use Akka Cluster](https://doc.akka.io/docs/akka/2.5/cluster-usage.html#when-and-where-to-use-akka-cluster).
 
@@ -41,4 +41,4 @@ Akka的集群成员是基于Amazon的[Dynamo](https://www.allthingsdistributed.c
 
 任何节点在`unreachable`时都不会发生gossip收敛。节点需要再次变成`reachable`，或者变成`down`和`removed`状态(详见下面的[成员生命周期]()章节)。这仅组织了Leader执行集群成员管理，但并不会影响在集群顶部运行的应用程序。For example this means that during a network partition it is not possible to add more nodes to the cluster. The nodes can join, but they will not be moved to the `up` state until the partition has healed or the unreachable nodes have been downed.
 
-###### <span id="failure detector">Failure Detector</span>
+###### <span id="failure_detector">Failure Detector</span>
