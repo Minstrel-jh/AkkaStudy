@@ -39,6 +39,16 @@ Akka的集群成员是基于Amazon的[Dynamo](https://www.allthingsdistributed.c
 ###### Gossip Convergence
 集群的信息会在某个时间点在一个节点汇聚。这时该节点可以证明群集中的所有其他节点已观察到他正在观察的群集状态。在gossip期间看到当前集群状态版本的节点的集合，可以被称为gossip概览中的可见集。通过传递该集合信息，来实现收敛。当所有节点都包含在该集合中时，存在收敛。
 
-任何节点在`unreachable`时都不会发生gossip收敛。节点需要再次变成`reachable`，或者变成`down`和`removed`状态(详见下面的[成员生命周期]()章节)。这仅组织了Leader执行集群成员管理，但并不会影响在集群顶部运行的应用程序。For example this means that during a network partition it is not possible to add more nodes to the cluster. The nodes can join, but they will not be moved to the `up` state until the partition has healed or the unreachable nodes have been downed.
+任何节点在`unreachable`时都不会发生gossip收敛。节点需要再次变成`reachable`，或者变成`down`和`removed`状态(详见下面的[成员生命周期]()章节)。这仅阻止了Leader执行集群成员管理，但并不会影响在集群顶部运行的应用程序。For example this means that during a network partition it is not possible to add more nodes to the cluster. The nodes can join, but they will not be moved to the `up` state until the partition has healed or the unreachable nodes have been downed.
 
 ###### <span id="failure_detector">Failure Detector</span>
+故障检测器负责检测节点是否对群集中的其它节点`unreachable`。为此，我们使用了Hayashibara等人的[Phi Accrual Failure Detector](https://pdfs.semanticscholar.org/11ae/4c0c0d0c36dc177c1fff5eb84fa49aa3e1a8.pdf)的实现。
+
+一个accrual的故障检测器会将监测和解释分离。这使它们适用于更广泛的场景，更适合构建通用的故障检测服务。通过保留从其他节点收到的心跳计算出失败统计数据的历史，来训练并猜测
+
+###### Leader
+
+###### Seed Nodes
+
+###### Gossip Protocol
+
