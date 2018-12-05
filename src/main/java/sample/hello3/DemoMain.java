@@ -16,7 +16,7 @@ public class DemoMain {
 
         Inbox inbox = Inbox.create(system);
 
-        greeter.tell(new WhoToGreet("akka"), ActorRef.noSender());
+        greeter.tell(new Integer(1), ActorRef.noSender());
         inbox.send(greeter, new Greet());
 
         Greeting greeting1 = (Greeting) inbox.receive(Duration.create(5, TimeUnit.SECONDS));

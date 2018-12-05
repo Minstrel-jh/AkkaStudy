@@ -13,6 +13,7 @@ public class Greeter extends UntypedActor {
         } else if (message instanceof Greet) {
             getSender().tell(new Greeting(greeting), getSelf());
         } else {
+            System.out.println("message未注册");
             unhandled(message);
         }
     }
