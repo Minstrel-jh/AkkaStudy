@@ -59,7 +59,7 @@ public class ConfigUtil {
         String master = defaultConfig.getString("spark.master");
         System.out.println(master);
 
-        Config namedConfig = configUtil.getConfig("another.conf");
+        Config namedConfig = configUtil.getConfig("another"); // another.conf
         Config firstSubConf = namedConfig.getConfig("mysql");
         Config secondSubConf = firstSubConf.getConfig("dataSource");
         String maxLifetime = secondSubConf.getString("maxLifetime");
