@@ -1,4 +1,4 @@
-package config;
+package trycode.config;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
