@@ -7,9 +7,10 @@ import akka.actor.Props;
 import scala.concurrent.duration.Duration;
 
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 public class DemoMain {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws TimeoutException {
         ActorSystem system = ActorSystem.create("helloakka");
 
         ActorRef greeter = system.actorOf(Props.create(Greeter.class), "greeter");
