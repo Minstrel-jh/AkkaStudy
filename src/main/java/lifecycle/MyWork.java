@@ -1,4 +1,4 @@
-package lifecycle.demo1;
+package lifecycle;
 
 import akka.actor.UntypedActor;
 import akka.event.Logging;
