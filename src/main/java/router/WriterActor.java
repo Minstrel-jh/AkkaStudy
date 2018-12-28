@@ -1,4 +1,4 @@
-package router.demo1;
+package router;
 
 import akka.actor.UntypedActor;
 

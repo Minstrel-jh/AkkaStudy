@@ -1,4 +1,4 @@
-package dispatcher.demo;
+package dispatcher;
 
 import java.io.Serializable;
 

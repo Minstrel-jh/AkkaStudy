@@ -1,8 +1,10 @@
-package router.demo1;
+package router;
 
+import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.actor.UntypedActor;
+import akka.japi.pf.FI;
 import akka.routing.RoundRobinPool;
 import akka.routing.RoundRobinRoutingLogic;
 import akka.routing.Router;
@@ -46,7 +48,7 @@ class ControlActor1 extends UntypedActor {
 }
 
 /**
- * 这种方式是通过创建一个RouteActor来使用路由
+ * 这种方式是通过创建一个RouterActor来使用路由
  */
 class ControlActor2 extends UntypedActor {
     @Override
@@ -57,5 +59,22 @@ class ControlActor2 extends UntypedActor {
             ActorRef actorRef = getContext().actorOf(props);
             actorRef.tell("Insert",ActorRef.noSender());
         }
+    }
+}
+
+class ControlActor3 extends AbstractActor {
+
+    @Override
+    public Receive createReceive() {
+        receiveBuilder()
+            .match(StartCommand.class, new FI.UnitApply() {
+
+                @Override
+                public void apply(Object o) {
+                    return;
+                }
+            });
+
+        return null;
     }
 }

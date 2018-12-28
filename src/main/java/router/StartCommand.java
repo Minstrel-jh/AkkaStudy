@@ -1,4 +1,4 @@
-package router.demo1;
+package router;
 
 import java.io.Serializable;
 

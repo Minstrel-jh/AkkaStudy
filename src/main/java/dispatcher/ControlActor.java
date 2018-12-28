@@ -1,4 +1,4 @@
-package dispatcher.demo;
+package dispatcher;
 
 import akka.actor.ActorRef;
 import akka.actor.Props;
