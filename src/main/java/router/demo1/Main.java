@@ -9,7 +9,7 @@ public class Main {
     public static void main(String[] args) {
         final ActorSystem system = ActorSystem.create("main");
 
-        final ActorRef control = system.actorOf(Props.create(ControlActor.class), "control");
+        final ActorRef control = system.actorOf(Props.create(ControlActor2.class), "control");
         control.tell(new StartCommand(100), ActorRef.noSender());
 
     }

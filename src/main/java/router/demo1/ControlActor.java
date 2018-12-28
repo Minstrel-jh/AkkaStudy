@@ -3,15 +3,19 @@ package router.demo1;
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.actor.UntypedActor;
+import akka.routing.RoundRobinPool;
 import akka.routing.RoundRobinRoutingLogic;
 import akka.routing.Router;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ControlActor extends UntypedActor {
+/**
+ * 这种方式是通过AKKA提供的API,手动的创建Router对象,然后调用addRoutee方法手动的添加Actor
+ */
+class ControlActor1 extends UntypedActor {
     @Override
-    public void onReceive(Object msg) throws Exception {
+    public void onReceive(Object msg) {
         if (msg instanceof StartCommand) {
             List<ActorRef> actors = createActors(((StartCommand) msg).getActorCount());
 
@@ -24,6 +28,9 @@ public class ControlActor extends UntypedActor {
                 router = router.addRoutee(actor);
             }
 
+            /**
+             * AKKA会把这个消息按照路由策略分发给某一个Actor中执行
+             */
             router.route("Insert", ActorRef.noSender());
         }
     }
@@ -35,5 +42,20 @@ public class ControlActor extends UntypedActor {
         }
 
         return actors;
+    }
+}
+
+/**
+ * 这种方式是通过创建一个RouteActor来使用路由
+ */
+class ControlActor2 extends UntypedActor {
+    @Override
+    public void onReceive(Object msg) {
+        if (msg instanceof StartCommand) {
+            int actorCount = ((StartCommand) msg).getActorCount();
+            Props props = Props.create(WriterActor.class).withRouter(new RoundRobinPool(actorCount));
+            ActorRef actorRef = getContext().actorOf(props);
+            actorRef.tell("Insert",ActorRef.noSender());
+        }
     }
 }
