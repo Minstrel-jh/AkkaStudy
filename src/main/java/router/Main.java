@@ -71,16 +71,32 @@ class ControlActor2 extends UntypedActor {
     }
 }
 
-class ControlActor3 extends UntypedActor {
+class ControlActor3 extends AbstractActor {
 
     @Override
-    public void onReceive(Object msg) {
-        if (msg instanceof StartCommand) {
+    public Receive createReceive() {
+        return receiveBuilder().match(StartCommand.class, startCommand -> {
             System.out.println("收到 command");
+
             Props props = Props.create(WriterActor.class).withRouter(new FromConfig());
-            ActorRef actorRef = getContext().actorOf(props, "broadCastRouter"); // 这里的name需要是配置的router的路径名
+            Props props2 = FromConfig.getInstance().props(Props.create(WriterActor.class));
+
+
+            ActorRef actorRef = getContext().actorOf(props2, "broadCastPool"); // 这里的name需要是配置的router的路径名
             actorRef.tell("Insert", ActorRef.noSender());
-        }
+        }).build();
+    }
+}
+
+class ControlActor4 extends AbstractActor {
+
+    @Override
+    public Receive createReceive() {
+        return receiveBuilder().match(StartCommand.class, startCommand -> {
+            System.out.println("收到 command");
+
+
+        }).build();
     }
 }
 
@@ -110,6 +126,7 @@ class StartCommand implements Serializable {
  * 定义一个WriterActor，用来接收ControlActor的消息
  */
 class WriterActor extends UntypedActor {
+
     @Override
     public void onReceive(Object o) throws Exception {
         System.out.println(Thread.currentThread().getName() + ":" + getSelf().path());
